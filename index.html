@@ -211,7 +211,7 @@
           View Student Submissions
         </button>
       </div>
-      
+
     </section>
     <section id="students" class="section-content">
       <div class="card">
@@ -235,24 +235,24 @@
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       let students = {};
-      //const dataStatus = document.getElementById('data-status');
+
       const studentSearch = document.getElementById('student-search');
       const sections = document.querySelectorAll('.section-content');
       const navLinks = document.querySelectorAll('.nav-link');
-    
+
       function getEmbeddableGoogleDriveLink(url) {
         if (!url) return null;
         let match = url.match(/\/file\/d\/([^/]+)\/view/);
-        if (match) return `https://drive.google.com/file/d/${match[1]}/preview`;
+        if (match) return `https:
         match = url.match(/open\?id=([^&]+)/);
-        if (match) return `https://drive.google.com/file/d/${match[1]}/preview`;
+        if (match) return `https:
         return null;
       }
-    
+
       function sanitizeText(text) {
         return typeof text === 'string' ? text.replace(/\n/g, '<br>') : '';
       }
-    
+
       function renderStudentDetails(roll) {
         const student = students[roll];
         if (!student) return;
@@ -263,11 +263,11 @@
             const answerKey = `Question ${qNum} - Answer`;
             const suppKey1 = `Question ${qNum} - Any supplementary image/file (Optional)`;
             const suppKey2 = `Q${qNum} - Any supplementary image/file (Optional)`;
-    
+
             const questionText = student.raw[key];
             const answerText = student.raw[answerKey];
             const supp = student.raw[suppKey1] || student.raw[suppKey2];
-    
+
             if (answerText || supp) {
   html += `<div class="question">
             <h3>Question ${qNum}</h3>`;
@@ -313,7 +313,7 @@
           });
         });
       }
-    
+
       function processData(data) {
         students = {};
         const nameKey = Object.keys(data[0]).find(k => k.toLowerCase().includes('name'));
@@ -321,7 +321,7 @@
         data.forEach(row => {
           if (!row[nameKey] || !row[rollKey]) return;
           let roll = row[rollKey].toString();
-          //if (roll.length > 2) roll = roll.slice(-2);
+
           students[roll] = { roll, name: row[nameKey], raw: row };
         });
         const grid = document.getElementById('student-grid');
@@ -343,17 +343,14 @@
             document.getElementById('student-details').classList.add('active');
           });
         });
-        // Set submission count
-       // document.getElementById('submission-count').textContent = Object.keys(students).length;
 
-        // Example master roll (replace with actual roll numbers if needed)
         const masterRolls = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
         const submittedRolls = Object.keys(students);
 
         document.getElementById('defaulter-list').textContent = defaulters.length > 0 ? defaulters.join(', ') : 'None';
 
       }
-    
+
       function loadExcel() {
         fetch('mfcs.xlsx')
           .then(res => res.arrayBuffer())
@@ -362,10 +359,10 @@
             const sheet = workbook.Sheets[workbook.SheetNames[0]];
             const data = XLSX.utils.sheet_to_json(sheet, { defval: '' });
             processData(data);
-            //dataStatus.innerHTML = '<p style="color: green;">✓ Data loaded successfully</p>';
+
           })
           .catch(err => {
-            //dataStatus.innerHTML = `<p style="color: red;">Error loading file: ${err.message}</p>`;
+
           });
       }
         document.getElementById('view-students-btn').addEventListener('click', function() {
@@ -381,7 +378,7 @@
           card.style.display = (studentName.includes(searchTerm) || studentId.includes(searchTerm)) ? 'block' : 'none';
         });
       });
-    
+
       navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
           e.preventDefault();
@@ -389,10 +386,10 @@
           document.getElementById(this.getAttribute('data-section')).classList.add('active');
         });
       });
-    
+
       loadExcel();
     });
     </script>
-    
+
 </body>
 </html>
