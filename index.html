@@ -319,7 +319,7 @@
         const nameKey = Object.keys(data[0]).find(k => k.toLowerCase().includes('name'));
         const rollKey = Object.keys(data[0]).find(k => k.toLowerCase().includes('roll'));
         data.forEach(row => {
-          if (!row[nameKey] || !row[rollKey]) return;
+          if (!row[nameKey]) return;
           let roll = row[rollKey].toString();
           //if (roll.length > 2) roll = roll.slice(-2);
           students[roll] = { roll, name: row[nameKey], raw: row };
